@@ -8,12 +8,12 @@
 
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-
+import { BrowserRouter } from 'react-router-dom';
+import RoutesComponent from './routes';
 import { GlobalStyle } from 'styles/global-styles';
-
-import Home from './views/pages/Home';
+import { Container } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
+import NavigationBar from './components/navigationbar';
 
 export function App() {
   const { i18n } = useTranslation();
@@ -26,10 +26,10 @@ export function App() {
       >
         <meta name="description" content="A React Boilerplate application" />
       </Helmet>
-
-      <Routes>
-        <Route path="/" element={<Home />} />
-      </Routes>
+      <NavigationBar />
+      <Container>
+        <RoutesComponent />
+      </Container>
       <GlobalStyle />
     </BrowserRouter>
   );

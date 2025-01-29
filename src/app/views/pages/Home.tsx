@@ -4,7 +4,7 @@ import MaterialButtons from 'app/components/material-buttons';
 const Home = () => {
   return (
     <div>
-      Home sample
+      <h1> Home</h1>
       <MaterialButtons />
     </div>
   );
