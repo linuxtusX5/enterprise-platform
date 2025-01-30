@@ -15,7 +15,10 @@ export const GlobalStyle = createGlobalStyle`
     min-height: 100%;
     min-width: 100%;
   }
-
+ h1 {
+  
+  padding-left: 240px;
+ }
   p,
   label {
     font-family: Georgia, Times, 'Times New Roman', serif;

@@ -2,12 +2,79 @@ import React, { useEffect } from 'react';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import Toolbar from '@material-ui/core/Toolbar';
-import { useMatch, Link } from 'react-router-dom';
-import { List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
+import { Link, Outlet, NavLink } from 'react-router-dom';
+import {
+  Divider,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  ListSubheader,
+} from '@material-ui/core';
 
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import SettingsIcon from '@material-ui/icons/Settings';
+import PieChartIcon from '@material-ui/icons/PieChart';
 const drawerWidth = 240;
+
+const DashboardSidebarnavigation = () => {
+  const classes = useStyles();
+
+  useEffect(() => {}, []);
+  return (
+    <div className={classes.root}>
+      <Outlet />
+      <Drawer
+        className={classes.drawer}
+        variant="permanent"
+        classes={{
+          paper: classes.drawerPaper,
+        }}
+        anchor="left"
+      >
+        <Toolbar
+          style={{ width: '6rem', height: 'auto' }}
+          className={classes.toolbar}
+        >
+          <Link to={'/'} className={classes.logoWithLink}>
+            Logo
+          </Link>
+          <Divider />
+        </Toolbar>
+        <div className={classes.drawerContainer}>
+          <List>
+            <ListSubheader>Reports</ListSubheader>
+            <ListItem button component={NavLink} to="/dashboard">
+              <ListItemIcon>
+                <PieChartIcon />
+              </ListItemIcon>
+              <ListItemText primary="dashboard" />
+            </ListItem>
+            <ListItem
+              button
+              component={NavLink}
+              to="/dashboard/settings-and-privacy"
+            >
+              <ListItemIcon>
+                <SettingsIcon />
+              </ListItemIcon>
+              <ListItemText primary="settings and privacy" />
+            </ListItem>
+
+            <ListItem button component={NavLink} to="/">
+              <ListItemIcon>
+                <ExitToAppIcon />
+              </ListItemIcon>
+              <ListItemText primary="Logout" />
+            </ListItem>
+          </List>
+        </div>
+      </Drawer>
+    </div>
+  );
+};
+
+export default DashboardSidebarnavigation;
 const useStyles = makeStyles(theme =>
   createStyles({
     root: {
@@ -37,56 +104,3 @@ const useStyles = makeStyles(theme =>
     },
   }),
 );
-
-const DashboardSidebarnavigation = () => {
-  const classes = useStyles();
-  const match = useMatch('/dashboard/*');
-  const url = match ? match.pathname : '';
-  useEffect(() => {
-    console.log(url);
-  }, [url]);
-
-  return (
-    <div className={classes.root}>
-      <Drawer
-        className={classes.drawer}
-        variant="permanent"
-        classes={{
-          paper: classes.drawerPaper,
-        }}
-        anchor="left"
-      >
-        <Toolbar
-          style={{ width: '6rem', height: 'auto' }}
-          className={classes.toolbar}
-        >
-          <Link to={`${url}`} className={classes.logoWithLink}>
-            Logo
-          </Link>
-        </Toolbar>
-        <div className={classes.drawerContainer}>
-          <List>
-            <Link to={`${url}`} className={classes.logoWithLink}>
-              <ListItem button>
-                <ListItemIcon>
-                  <SettingsIcon />
-                </ListItemIcon>
-                <ListItemText primary="settings and privacy" />
-              </ListItem>
-            </Link>
-            <a className="classes.link" href="/">
-              <ListItem button>
-                <ListItemIcon>
-                  <ExitToAppIcon />
-                </ListItemIcon>
-                <ListItemText primary="Logout" />
-              </ListItem>
-            </a>
-          </List>
-        </div>
-      </Drawer>
-    </div>
-  );
-};
-
-export default DashboardSidebarnavigation;
