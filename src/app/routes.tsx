@@ -1,5 +1,5 @@
 import React, { lazy, Suspense } from 'react';
-import { Route, Routes, Navigate, useMatch } from 'react-router-dom';
+import { Route, Routes, Navigate } from 'react-router-dom';
 import Home from './views/pages/Home';
 import Dashboard from './layouts/dashboard-layout/DashboardSidebarnavigation';
 import NotFoundPage from './views/pages/NotFoundPage';
@@ -10,12 +10,15 @@ const About = lazy(() => import('./views/pages/About_Page'));
 const DashboardDefaultContent = lazy(
   () => import('./views/Dashboard/DashboardDefaultContent'),
 );
-const SettingsandPrivacy = lazy(
-  () => import('./views/Dashboard/SettingsandPrivacy'),
+
+const ProductListView = lazy(
+  () => import('./views/Dashboard/product/ProductListView'),
+);
+const ProductCreateView = lazy(
+  () => import('./views/Dashboard/product/ProductCreateView'),
 );
 
 export default function RoutesComponent() {
-  const match = useMatch('/dashboard/*');
   return (
     <Suspense fallback={<LinearProgress style={{ margin: '10rem' }} />}>
       <Routes>
@@ -23,7 +26,8 @@ export default function RoutesComponent() {
         <Route path="/about" element={<About />} />
         <Route path="/dashboard" element={<Dashboard />}>
           <Route index element={<DashboardDefaultContent />} />
-          <Route path="settings-and-privacy" element={<SettingsandPrivacy />} />
+          <Route path="list-products" element={<ProductListView />} />
+          <Route path="create-product" element={<ProductCreateView />} />
         </Route>
         <Route path="/not-found" element={<NotFoundPage />} />
         <Route path="*" element={<Navigate to="/not-found" replace />} />

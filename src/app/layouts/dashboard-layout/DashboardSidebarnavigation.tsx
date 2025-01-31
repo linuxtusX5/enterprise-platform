@@ -1,11 +1,13 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
-import Toolbar from '@material-ui/core/Toolbar';
+
 import { Link, Outlet, NavLink } from 'react-router-dom';
 import {
   Divider,
+  Drawer,
+  Collapse,
   List,
+  Toolbar,
   ListItem,
   ListItemIcon,
   ListItemText,
@@ -14,11 +16,24 @@ import {
 
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import SettingsIcon from '@material-ui/icons/Settings';
-import PieChartIcon from '@material-ui/icons/PieChart';
+import {
+  PieChart as PieChartIcon,
+  ShoppingCart as ShoppingCartIcon,
+  ChevronUp as ChevronUpIcon,
+  ChevronDown as ChevronDownIcon,
+  List as ListIcon,
+  FilePlus as FilePlusIcon,
+  LogOut as LogOutIcon,
+} from 'react-feather';
 const drawerWidth = 240;
 
 const DashboardSidebarnavigation = () => {
+  const [open, setOpen] = useState(true);
   const classes = useStyles();
+
+  const handleClick = () => {
+    setOpen(!open);
+  };
 
   useEffect(() => {}, []);
   return (
@@ -50,20 +65,47 @@ const DashboardSidebarnavigation = () => {
               </ListItemIcon>
               <ListItemText primary="dashboard" />
             </ListItem>
-            <ListItem
-              button
-              component={NavLink}
-              to="/dashboard/settings-and-privacy"
-            >
+
+            <ListSubheader>Management</ListSubheader>
+            <ListItem button onClick={handleClick}>
               <ListItemIcon>
-                <SettingsIcon />
+                <ShoppingCartIcon />
               </ListItemIcon>
-              <ListItemText primary="settings and privacy" />
+              <ListItemText primary="Products" />
+              {open ? <ChevronUpIcon /> : <ChevronDownIcon />}
             </ListItem>
+
+            <Collapse in={open} timeout="auto" unmountOnExit>
+              <List component="div" disablePadding>
+                <ListItem
+                  button
+                  className={classes.nested}
+                  component={NavLink}
+                  to="/dashboard/list-products"
+                >
+                  <ListItemIcon>
+                    <ListIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="List Products" />
+                </ListItem>
+
+                <ListItem
+                  button
+                  className={classes.nested}
+                  component={NavLink}
+                  to="/dashboard/create-product"
+                >
+                  <ListItemIcon>
+                    <FilePlusIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Create Product" />
+                </ListItem>
+              </List>
+            </Collapse>
 
             <ListItem button component={NavLink} to="/">
               <ListItemIcon>
-                <ExitToAppIcon />
+                <LogOutIcon />
               </ListItemIcon>
               <ListItemText primary="Logout" />
             </ListItem>
@@ -101,6 +143,9 @@ const useStyles = makeStyles(theme =>
       alignItems: 'center',
       textDecoration: 'none',
       color: 'inherit',
+    },
+    nested: {
+      paddingLeft: theme.spacing(4),
     },
   }),
 );
