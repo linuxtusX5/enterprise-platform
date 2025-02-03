@@ -1,11 +1,66 @@
 import React from 'react';
+import { Link as RouterLink } from 'react-router-dom';
+import clsx from 'clsx';
+import NavigateNextIcon from '@material-ui/icons/NavigateNext';
+import {
+  Breadcrumbs,
+  Button,
+  Grid,
+  Link,
+  Typography,
+  makeStyles,
+  Box,
+} from '@material-ui/core';
 
-const Header = () => {
+type Props = {
+  className?: string;
+};
+
+const Header = ({ className, ...rest }: Props) => {
+  const classes = useStyles();
   return (
-    <div>
-      <h1>Header - CreativeView Works!</h1>;
-    </div>
+    <Grid
+      className={clsx(classes.root, className)}
+      container
+      justify="space-between"
+      spacing={3}
+      {...rest}
+    >
+      <Grid item>
+        <Breadcrumbs
+          separator={<NavigateNextIcon fontSize="small" />}
+          aria-label="breadcrumb"
+        >
+          <Link
+            variant="body1"
+            color="inherit"
+            to="/dashboard"
+            component={RouterLink}
+          >
+            Dashboard
+          </Link>
+          <Box>
+            <Typography variant="body1" color="inherit">
+              Create Product
+            </Typography>
+          </Box>
+        </Breadcrumbs>
+        <Typography variant="h4" color="textPrimary">
+          Create a new product
+        </Typography>
+      </Grid>
+      <Grid item>
+        <Button component={RouterLink} to="/create-product">
+          Cancel
+        </Button>
+      </Grid>
+    </Grid>
   );
 };
 
 export default Header;
+const useStyles = makeStyles(() => ({
+  root: {
+    marginLeft: '240px',
+  },
+}));

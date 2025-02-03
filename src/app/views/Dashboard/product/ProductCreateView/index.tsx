@@ -2,29 +2,26 @@ import React from 'react';
 import { Container, makeStyles } from '@material-ui/core';
 import ProductCreateForm from './ProductCreateForm';
 import Header from './Header';
+import Pages from 'app/components/pages';
 
 const ProductCreateView = () => {
   const classes = useStyles();
   return (
-    <Container>
-      <Header />
-      <ProductCreateForm />
-    </Container>
-  );
-};
-const index = () => {
-  return (
-    <div>
-      <h1>ProductCreateView</h1>
-    </div>
+    <Pages className={classes.root} title="Create Product">
+      <Container maxWidth="lg">
+        <Header />
+        <ProductCreateForm />
+      </Container>
+    </Pages>
   );
 };
 
-export default index;
+export default ProductCreateView;
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles(theme => ({
   root: {
     minHeight: '100%',
-    marginLeft: '240px',
+    paddingTop: theme.spacing(3),
+    // marginLeft: '240px',
   },
 }));
