@@ -39,7 +39,7 @@ import {
   getInventoryLabel,
 } from './tableResultsHelpers';
 import { ProductType } from 'app/models/product-type';
-
+import { deleteProductAxios } from 'app/services/productService';
 type Props = {
   className?: string;
   products: ProductType[];
@@ -151,6 +151,17 @@ const Results = ({ className, products, ...rest }: Props) => {
       setSelectedProducts(prevSelected =>
         prevSelected.filter(id => id !== productId),
       );
+    }
+  };
+
+  const handleDelete = async (productIds: string[]) => {
+    try {
+      await Promise.all(productIds.map(id => deleteProductAxios(id)));
+      console.log(`Deleted products: ${productIds.join(', ')}`);
+      // Optionally refresh data here;
+      window.location.reload();
+    } catch (error) {
+      console.error('Error deleting products:', error);
     }
   };
 
@@ -272,7 +283,11 @@ const Results = ({ className, products, ...rest }: Props) => {
               indeterminate={selectedSomeProducts}
               onChange={handleSelectAllProducts}
             />
-            <Button variant="outlined" className={classes.bulkAction}>
+            <Button
+              variant="outlined"
+              className={classes.bulkAction}
+              onClick={() => handleDelete(selectedProducts)}
+            >
               Delete
             </Button>
             <Button variant="outlined" className={classes.bulkAction}>

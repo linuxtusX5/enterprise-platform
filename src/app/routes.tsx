@@ -17,6 +17,7 @@ const ProductListView = lazy(
 const ProductCreateView = lazy(
   () => import('./views/Dashboard/product/ProductCreateView'),
 );
+const Calendar = lazy(() => import('./views/Dashboard/calendar/CalendarView'));
 
 export default function RoutesComponent() {
   return (
@@ -28,6 +29,7 @@ export default function RoutesComponent() {
           <Route index element={<DashboardDefaultContent />} />
           <Route path="list-products" element={<ProductListView />} />
           <Route path="create-product" element={<ProductCreateView />} />
+          <Route path="calendar" element={<Calendar />} />
         </Route>
         <Route path="/not-found" element={<NotFoundPage />} />
         <Route path="*" element={<Navigate to="/not-found" replace />} />

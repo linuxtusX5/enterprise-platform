@@ -5,4 +5,8 @@ const api = axios.create({
 });
 
 export default api;
-export const EndPoints = { sales: 'sales', products: 'products' };
+export const EndPoints = {
+  sales: 'sales',
+  products: 'products',
+  events: 'event',
+};

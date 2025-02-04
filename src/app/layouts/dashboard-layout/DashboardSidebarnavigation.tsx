@@ -14,13 +14,12 @@ import {
   ListSubheader,
 } from '@material-ui/core';
 
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import SettingsIcon from '@material-ui/icons/Settings';
 import {
   PieChart as PieChartIcon,
   ShoppingCart as ShoppingCartIcon,
   ChevronUp as ChevronUpIcon,
   ChevronDown as ChevronDownIcon,
+  Calendar as CalendarIcon,
   List as ListIcon,
   FilePlus as FilePlusIcon,
   LogOut as LogOutIcon,
@@ -102,6 +101,14 @@ const DashboardSidebarnavigation = () => {
                 </ListItem>
               </List>
             </Collapse>
+
+            <ListSubheader>Applications</ListSubheader>
+            <ListItem button component={NavLink} to="calendar">
+              <ListItemIcon>
+                <ShoppingCartIcon />
+              </ListItemIcon>
+              <ListItemText primary="Calendar" />
+            </ListItem>
 
             <ListItem button component={NavLink} to="/">
               <ListItemIcon>

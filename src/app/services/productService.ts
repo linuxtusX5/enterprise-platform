@@ -8,3 +8,6 @@ export async function getProductsAxios() {
 export async function postProductAxios(product: ProductType) {
   return await api.post<ProductType>(EndPoints.products, product);
 }
+export async function deleteProductAxios(productId: string) {
+  return await api.delete<ProductType>(`${EndPoints.products}/${productId}`);
+}
