@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
 import { Formik } from 'formik';
 import { useSnackbar } from 'notistack';
@@ -64,7 +64,7 @@ const ProductCreateForm = ({ className, ...rest }: Props) => {
           enqueueSnackbar('Product Created', {
             variant: 'success',
           });
-          navigate('list-products');
+          navigate('/dashboard/list-products');
         } catch (err) {
           alert('Something happened. Please try again.');
           if (err instanceof Error) {

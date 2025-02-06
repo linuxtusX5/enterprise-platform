@@ -188,6 +188,7 @@ export const deleteEvent =
     try {
       const response = await axios.delete(`${EndPoints.events}/${id}`);
       dispatch(slice.actions.deleteEvent(response.data));
+      window.location.reload();
     } catch (error: any) {
       console.log(error.message);
       dispatch(slice.actions.setError(error.message));
