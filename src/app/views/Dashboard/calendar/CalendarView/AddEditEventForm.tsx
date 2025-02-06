@@ -61,7 +61,6 @@ const AddEditEventForm = ({
       console.error(err);
     }
   };
-
   return (
     <Formik
       initialValues={getInitialValues(event, range)}
