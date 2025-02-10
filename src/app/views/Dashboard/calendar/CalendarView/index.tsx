@@ -44,7 +44,7 @@ const CalendarView = () => {
   );
   useEffect(() => {
     dispatch(getEvents());
-  }, []);
+  }, [dispatch]);
   const handleAddClick = (): void => {
     dispatch(openModal());
   };

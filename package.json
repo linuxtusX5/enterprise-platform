@@ -96,7 +96,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "backend": "json-server --watch db.json --port 5000 --delay=1000",
+    "backend": "json-server --watch db.json --port 5000 --delay=1000 -m ./node_modules/json-server-auth",
+    "start:fullstack": "concurrently \"npm run backend\" \"npm start\"",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
@@ -159,7 +160,7 @@
     }
   },
   "devDependencies": {
-    "concurrently": "9.1.2",
+    "concurrently": "5.3.0",
     "cypress": "14.0.0",
     "json-server": "0.16.3",
     "json-server-auth": "2.1.0"
