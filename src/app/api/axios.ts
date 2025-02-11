@@ -11,4 +11,6 @@ export const EndPoints = {
   events: 'events',
   login: 'login',
   register: 'register',
+  users: 'users',
+  usersDb: 'users-db',
 };

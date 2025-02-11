@@ -1,17 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
-
-import { Link, Outlet, NavLink } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from 'store/reducers';
+import { Outlet, NavLink } from 'react-router-dom';
+import { getProfileAction } from 'features/profile/profileAsyncActions';
 import {
   Divider,
   Drawer,
   Collapse,
   List,
-  Toolbar,
   ListItem,
   ListItemIcon,
   ListItemText,
   ListSubheader,
+  Avatar,
+  Box,
+  Typography,
 } from '@material-ui/core';
 
 import {
@@ -22,6 +26,8 @@ import {
   Calendar as CalendarIcon,
   List as ListIcon,
   FilePlus as FilePlusIcon,
+  User as UserIcon,
+  DollarSign as DollarSignIcon,
   LogOut as LogOutIcon,
 } from 'react-feather';
 const drawerWidth = 240;
@@ -29,6 +35,9 @@ const drawerWidth = 240;
 const DashboardSidebarnavigation = () => {
   const [open, setOpen] = useState(true);
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const { profile } = useSelector((state: RootState) => state.profile);
+  const { claims } = useSelector((state: RootState) => state.auth);
 
   const handleClick = () => {
     setOpen(!open);
@@ -39,7 +48,13 @@ const DashboardSidebarnavigation = () => {
     window.location.reload();
   };
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    // dispatch(getProfileAction(claims.sub));
+    if (claims?.sub) {
+      dispatch(getProfileAction(claims.sub));
+    }
+  }, [claims?.sub, dispatch]);
+
   return (
     <div className={classes.root}>
       <Outlet />
@@ -51,15 +66,25 @@ const DashboardSidebarnavigation = () => {
         }}
         anchor="left"
       >
-        <Toolbar
-          style={{ width: '6rem', height: 'auto' }}
-          className={classes.toolbar}
-        >
-          <Link to={'/'} className={classes.logoWithLink}>
-            Logo
-          </Link>
-          <Divider />
-        </Toolbar>
+        {profile.name && (
+          <Box p={2}>
+            <Box display="flex" justifyContent="center">
+              <Avatar
+                alt="User"
+                className={classes.avatar}
+                src={profile.avatar}
+                variant="circular"
+              />
+            </Box>
+            <Box mt={2} textAlign="center">
+              <Typography>{profile.name}</Typography>
+              <Typography variant="body2" color="textSecondary">
+                Your tier: {profile.tier}
+              </Typography>
+            </Box>
+          </Box>
+        )}
+        <Divider />
         <div className={classes.drawerContainer}>
           <List>
             <ListSubheader>Reports</ListSubheader>
@@ -115,6 +140,19 @@ const DashboardSidebarnavigation = () => {
               <ListItemText primary="Calendar" />
             </ListItem>
 
+            <ListSubheader>Pages</ListSubheader>
+            <ListItem button component={NavLink} to="account">
+              <ListItemIcon>
+                <UserIcon />
+              </ListItemIcon>
+              <ListItemText primary={'Account'} />
+            </ListItem>
+            <ListItem button component={NavLink} to="pricing">
+              <ListItemIcon>
+                <DollarSignIcon />
+              </ListItemIcon>
+              <ListItemText primary={'Pricing'} />
+            </ListItem>
             <ListItem button onClick={handleLogout}>
               <ListItemIcon>
                 <LogOutIcon />
@@ -131,6 +169,11 @@ const DashboardSidebarnavigation = () => {
 export default DashboardSidebarnavigation;
 const useStyles = makeStyles(theme =>
   createStyles({
+    avatar: {
+      cursor: 'pointer',
+      width: 64,
+      height: 64,
+    },
     root: {
       display: 'flex',
     },

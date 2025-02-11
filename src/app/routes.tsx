@@ -20,6 +20,8 @@ const ProductCreateView = lazy(
 );
 const LoginPage = lazy(() => import('./views/pages/auth/LoginPage'));
 const Calendar = lazy(() => import('./views/Dashboard/calendar/CalendarView'));
+const Pricing = lazy(() => import('./views/pages/pricing/PricingPage'));
+const Account = lazy(() => import('./views/Dashboard/account/AccountView'));
 
 export default function RoutesComponent() {
   return (
@@ -40,6 +42,8 @@ export default function RoutesComponent() {
           <Route path="list-products" element={<ProductListView />} />
           <Route path="create-product" element={<ProductCreateView />} />
           <Route path="calendar" element={<Calendar />} />
+          <Route path="pricing" element={<Pricing />} />
+          <Route path="account" element={<Account />} />
         </Route>
 
         <Route path="/not-found" element={<NotFoundPage />} />

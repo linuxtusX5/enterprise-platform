@@ -4,9 +4,13 @@
 
 import { combineReducers } from '@reduxjs/toolkit';
 import calendarReducer from 'features/calendar/calendarSlice';
+import profileReducer from 'features/profile/profileSlice';
+import authReducer from 'features/auth/authSlice';
 
 const injectedReducers = {
   calendar: calendarReducer,
+  auth: authReducer,
+  profile: profileReducer,
 };
 
 const rootReducer = combineReducers({
