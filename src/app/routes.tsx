@@ -4,6 +4,7 @@ import Home from './views/pages/Home';
 import Dashboard from './layouts/dashboard-layout/DashboardSidebarnavigation';
 import NotFoundPage from './views/pages/NotFoundPage';
 import { LinearProgress } from '@material-ui/core';
+import ProtectedRoute from './components/protected-route';
 
 // Lazy-loaded components
 const About = lazy(() => import('./views/pages/About_Page'));
@@ -26,12 +27,21 @@ export default function RoutesComponent() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
-        <Route path="/dashboard" element={<Dashboard />}>
+
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        >
           <Route index element={<DashboardDefaultContent />} />
           <Route path="list-products" element={<ProductListView />} />
           <Route path="create-product" element={<ProductCreateView />} />
           <Route path="calendar" element={<Calendar />} />
         </Route>
+
         <Route path="/not-found" element={<NotFoundPage />} />
         <Route path="*" element={<Navigate to="/not-found" replace />} />
 

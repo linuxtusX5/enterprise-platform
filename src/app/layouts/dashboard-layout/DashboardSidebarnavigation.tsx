@@ -34,6 +34,11 @@ const DashboardSidebarnavigation = () => {
     setOpen(!open);
   };
 
+  const handleLogout = () => {
+    localStorage.clear();
+    window.location.reload();
+  };
+
   useEffect(() => {}, []);
   return (
     <div className={classes.root}>
@@ -110,7 +115,7 @@ const DashboardSidebarnavigation = () => {
               <ListItemText primary="Calendar" />
             </ListItem>
 
-            <ListItem button component={NavLink} to="/">
+            <ListItem button onClick={handleLogout}>
               <ListItemIcon>
                 <LogOutIcon />
               </ListItemIcon>
