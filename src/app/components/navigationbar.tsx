@@ -1,11 +1,13 @@
 import React from 'react';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import {
+  createStyles,
+  makeStyles,
+  Theme,
+  useMediaQuery,
+} from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 import { Link } from 'react-router-dom';
 import { colors } from '@material-ui/core';
 
@@ -29,13 +31,14 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function NavigationBar() {
   const classes = useStyles();
+  const mobileDevice = useMediaQuery('(max-width:650px)');
 
   return (
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
           <Link className={`${classes.link} ${classes.title}`} to={'/'}>
-            LOGO
+            {!mobileDevice && 'LOGO'}
           </Link>
           <Button color="inherit">
             <Link className={classes.link} to={'/'}>

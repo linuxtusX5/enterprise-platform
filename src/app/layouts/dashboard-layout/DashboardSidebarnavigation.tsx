@@ -16,8 +16,9 @@ import {
   Avatar,
   Box,
   Typography,
+  useMediaQuery,
 } from '@material-ui/core';
-
+import clsx from 'clsx';
 import {
   PieChart as PieChartIcon,
   ShoppingCart as ShoppingCartIcon,
@@ -38,6 +39,7 @@ const DashboardSidebarnavigation = () => {
   const dispatch = useDispatch();
   const { profile } = useSelector((state: RootState) => state.profile);
   const { claims } = useSelector((state: RootState) => state.auth);
+  const mobileDevice = useMediaQuery('(max-width:650px)');
 
   const handleClick = () => {
     setOpen(!open);
@@ -59,14 +61,14 @@ const DashboardSidebarnavigation = () => {
     <div className={classes.root}>
       <Outlet />
       <Drawer
-        className={classes.drawer}
+        className={clsx(classes.drawer, mobileDevice && classes.drawerClose)}
         variant="permanent"
         classes={{
-          paper: classes.drawerPaper,
+          paper: clsx(classes.drawerPaper, mobileDevice && classes.drawerClose),
         }}
         anchor="left"
       >
-        {profile.name && (
+        {profile.name && !mobileDevice && (
           <Box p={2}>
             <Box display="flex" justifyContent="center">
               <Avatar
@@ -85,82 +87,148 @@ const DashboardSidebarnavigation = () => {
           </Box>
         )}
         <Divider />
-        <div className={classes.drawerContainer}>
-          <List>
-            <ListSubheader>Reports</ListSubheader>
-            <ListItem button component={NavLink} to="/dashboard">
-              <ListItemIcon>
-                <PieChartIcon />
-              </ListItemIcon>
-              <ListItemText primary="dashboard" />
-            </ListItem>
-
-            <ListSubheader>Management</ListSubheader>
-            <ListItem button onClick={handleClick}>
-              <ListItemIcon>
-                <ShoppingCartIcon />
-              </ListItemIcon>
-              <ListItemText primary="Products" />
-              {open ? <ChevronUpIcon /> : <ChevronDownIcon />}
-            </ListItem>
-
-            <Collapse in={open} timeout="auto" unmountOnExit>
-              <List component="div" disablePadding>
-                <ListItem
-                  button
-                  className={classes.nested}
-                  component={NavLink}
-                  to="/dashboard/list-products"
-                >
+        {mobileDevice ? (
+          <div className={classes.drawerContainer}>
+            <List>
+              <ListItem button component={NavLink} to="/dashboard">
+                <ListItemIcon>
+                  <PieChartIcon />
+                </ListItemIcon>
+              </ListItem>
+              <Divider />
+              <ListItem button onClick={handleClick}>
+                <ListItemIcon>
+                  <ShoppingCartIcon />
+                </ListItemIcon>
+                {open ? <ChevronUpIcon /> : <ChevronDownIcon />}
+              </ListItem>
+              <Divider />
+              <Collapse in={open} timeout="auto" unmountOnExit>
+                <List component="div" disablePadding>
+                  <ListItem button className={classes.nested}>
+                    <ListItemIcon>
+                      <ListIcon />
+                    </ListItemIcon>
+                  </ListItem>
+                  <ListItem
+                    button
+                    className={classes.nested}
+                    component={NavLink}
+                    to="/dashboard/create-product"
+                  >
+                    <ListItemIcon>
+                      <FilePlusIcon />
+                    </ListItemIcon>
+                  </ListItem>
+                </List>
+              </Collapse>
+              <Divider />
+              <ListItem button component={NavLink} to="calendar">
+                <ListItemIcon>
+                  <CalendarIcon />
+                </ListItemIcon>
+              </ListItem>
+              <Divider />
+              <ListItem button component={NavLink} to="account">
+                <ListItemIcon>
+                  <UserIcon />
+                </ListItemIcon>
+              </ListItem>
+              <Divider />
+              <ListItem button component={NavLink} to="pricing">
+                <ListItemIcon>
+                  <DollarSignIcon />
+                </ListItemIcon>
+              </ListItem>
+              <Divider />
+              <a className={classes.link} href={'/'}>
+                <ListItem button onClick={handleLogout}>
                   <ListItemIcon>
-                    <ListIcon />
+                    <LogOutIcon />
                   </ListItemIcon>
-                  <ListItemText primary="List Products" />
                 </ListItem>
+              </a>
+            </List>
+            <Divider />
+          </div>
+        ) : (
+          <div className={classes.drawerContainer}>
+            <List>
+              <ListSubheader>Reports</ListSubheader>
+              <ListItem button component={NavLink} to="/dashboard">
+                <ListItemIcon>
+                  <PieChartIcon />
+                </ListItemIcon>
+                <ListItemText primary="dashboard" />
+              </ListItem>
 
-                <ListItem
-                  button
-                  className={classes.nested}
-                  component={NavLink}
-                  to="/dashboard/create-product"
-                >
-                  <ListItemIcon>
-                    <FilePlusIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Create Product" />
-                </ListItem>
-              </List>
-            </Collapse>
+              <ListSubheader>Management</ListSubheader>
+              <ListItem button onClick={handleClick}>
+                <ListItemIcon>
+                  <ShoppingCartIcon />
+                </ListItemIcon>
+                <ListItemText primary="Products" />
+                {open ? <ChevronUpIcon /> : <ChevronDownIcon />}
+              </ListItem>
 
-            <ListSubheader>Applications</ListSubheader>
-            <ListItem button component={NavLink} to="calendar">
-              <ListItemIcon>
-                <ShoppingCartIcon />
-              </ListItemIcon>
-              <ListItemText primary="Calendar" />
-            </ListItem>
+              <Collapse in={open} timeout="auto" unmountOnExit>
+                <List component="div" disablePadding>
+                  <ListItem
+                    button
+                    className={classes.nested}
+                    component={NavLink}
+                    to="/dashboard/list-products"
+                  >
+                    <ListItemIcon>
+                      <ListIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="List Products" />
+                  </ListItem>
 
-            <ListSubheader>Pages</ListSubheader>
-            <ListItem button component={NavLink} to="account">
-              <ListItemIcon>
-                <UserIcon />
-              </ListItemIcon>
-              <ListItemText primary={'Account'} />
-            </ListItem>
-            <ListItem button component={NavLink} to="pricing">
-              <ListItemIcon>
-                <DollarSignIcon />
-              </ListItemIcon>
-              <ListItemText primary={'Pricing'} />
-            </ListItem>
-            <ListItem button onClick={handleLogout}>
-              <ListItemIcon>
-                <LogOutIcon />
-              </ListItemIcon>
-              <ListItemText primary="Logout" />
-            </ListItem>
-          </List>
-        </div>
+                  <ListItem
+                    button
+                    className={classes.nested}
+                    component={NavLink}
+                    to="/dashboard/create-product"
+                  >
+                    <ListItemIcon>
+                      <FilePlusIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Create Product" />
+                  </ListItem>
+                </List>
+              </Collapse>
+
+              <ListSubheader>Applications</ListSubheader>
+              <ListItem button component={NavLink} to="calendar">
+                <ListItemIcon>
+                  <CalendarIcon />
+                </ListItemIcon>
+                <ListItemText primary="Calendar" />
+              </ListItem>
+
+              <ListSubheader>Pages</ListSubheader>
+              <ListItem button component={NavLink} to="account">
+                <ListItemIcon>
+                  <UserIcon />
+                </ListItemIcon>
+                <ListItemText primary={'Account'} />
+              </ListItem>
+              <ListItem button component={NavLink} to="pricing">
+                <ListItemIcon>
+                  <DollarSignIcon />
+                </ListItemIcon>
+                <ListItemText primary={'Pricing'} />
+              </ListItem>
+              <ListItem button onClick={handleLogout}>
+                <ListItemIcon>
+                  <LogOutIcon />
+                </ListItemIcon>
+                <ListItemText primary="Logout" />
+              </ListItem>
+            </List>
+          </div>
+        )}
       </Drawer>
     </div>
   );
@@ -201,6 +269,18 @@ const useStyles = makeStyles(theme =>
     },
     nested: {
       paddingLeft: theme.spacing(4),
+    },
+    // mobile style
+    drawerClose: {
+      transition: theme.transitions.create('width', {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen,
+      }),
+      overflowX: 'hidden',
+      width: theme.spacing(7) + 1,
+      [theme.breakpoints.up('sm')]: {
+        width: theme.spacing(9) + 1,
+      },
     },
   }),
 );
